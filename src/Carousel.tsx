@@ -1,37 +1,26 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback} from 'react';
 
 import {
   StyleSheet,
-  FlatList,
   Image,
   View,
   Dimensions,
-  Text,
   Animated,
-  TouchableOpacity
+  TouchableOpacity,
+  Platform,
+  ActivityIndicator,
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Fontisto';
+import Pagination from './components/Pagination';
 
 import photos from './data';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
+const ItemSize = width * 0.75
 
-
-const countDecimals = (value: number) => {
-
-  let unidade,dezena;
-
-  unidade= value % 10;
-  value = (value - unidade) / 10;
-  dezena = value % 10;
-
-  return dezena;
-
-}
-
-const Carousel:React.FC = () => {
+const Carousel: React.FC = () => {
 
   const [indexImage, setIndexImage] = useState(0);
   const [pickedPhotos, setPickedPhotos] = useState<string[]>([]);
@@ -39,12 +28,10 @@ const Carousel:React.FC = () => {
   const viewConfigRef = React.useRef({ viewAreaCoveragePercentThreshold: 50 })
 
   const backgroundImageOpacity = useRef(new Animated.Value(0.5)).current;
+  const scrollX = React.useRef(new Animated.Value(0)).current;
 
   const onViewRef = React.useRef((viewableItems: any) => {
-    
-    backgroundImageOpacity.setValue(0.5);
     setIndexImage(viewableItems.changed[0].index)
-
   })
 
   const addPickedPhoto = useCallback((elem: string) => {
@@ -58,22 +45,51 @@ const Carousel:React.FC = () => {
 
   }, [pickedPhotos, setPickedPhotos])
 
-  return (
-    <View  style={styles.box} >
+  return (<> 
 
-      {photos && <FlatList
+    {photos.length != 0 && <View style={styles.box} >
+
+      <Animated.FlatList
         data={photos}
-        keyExtractor={photo => photo}
         horizontal
+        bounces={false}
+        keyExtractor={photo => photo}
+        snapToAlignment='start'
+        renderToHardwareTextureAndroid
         viewabilityConfig={viewConfigRef.current}
         onViewableItemsChanged={onViewRef.current}
-        renderItem={({ item, index }) => (
+        decelerationRate={Platform.OS === 'ios' ? 0 : 0.95}  
+        
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+          { useNativeDriver: true }
+        )}  
 
+        scrollEventThrottle={16}
+
+        renderItem={({ item, index }) => {
+
+          const inputRange = [
+            (index - 2) * ItemSize,
+            (index - 1) * ItemSize,
+            index * ItemSize,
+          ];
+
+          const translateY = scrollX.interpolate({
+            inputRange,
+            outputRange: [15, 0, 15],
+            extrapolate: 'clamp',
+          });
+
+          return <>
+      
           <Animated.View
-            style={[
-              indexImage == index ? {
+            style={[indexImage == index ? {
                 opacity: 1,
-              } : { opacity: backgroundImageOpacity }
+              } : {
+                  opacity: backgroundImageOpacity,
+                  transform: [{ translateY }],
+                }
             ]}
           >
 
@@ -90,46 +106,33 @@ const Carousel:React.FC = () => {
             <Image style={styles.image} source={{ uri: item }} />
 
           </Animated.View>
+          
+          </>
 
-        )}
-
-
-      />}
-
-      <View style={styles.indicator}>
-
-        {photos.map((item: string, index: number) => {
-
-          if (countDecimals(index) === countDecimals(indexImage)) {
-            return <View key={index + item} style={
-              [index == indexImage ?
-                { backgroundColor: 'orange' } :
-                {
-                  backgroundColor: 'transparent',
-                  borderColor: 'white',
-                  borderWidth: 1
-
-                },
-              styles.square]}>
-              <Text style={styles.TextIndicator}>
-                {index + 1}
-              </Text>
+        }}
 
 
-            </View>
-          }
+      />
 
-        })}
+      <Pagination photos={photos} indexImage={indexImage} />
 
-        <Icon
-          size={24}
-          style={styles.check}
-          color={'white'}
-          name={'check'}
-        />
+      <Icon
+        size={24}
+        style={styles.check}
+        color={'white'}
+        name={'check'}
+      />
 
+    </View>}
+
+    {photos.length == 0 &&
+
+      <View style={styles.boxLoading}>
+        <ActivityIndicator size={80} color="white" />
       </View>
-    </View>
+    }
+
+  </>
   );
 };
 
@@ -137,10 +140,13 @@ const styles = StyleSheet.create({
 
   box: {
     flex: 1,
-    justifyContent: 'center',
-    alignContent: 'center',
-    textAlign: 'center',
     backgroundColor: 'black',
+  },
+
+  boxLoading: {
+    flex: 1,
+    backgroundColor: 'black',
+    justifyContent: 'center'
   },
 
   checkbox: {
@@ -150,26 +156,16 @@ const styles = StyleSheet.create({
     zIndex: 1
   },
 
+  imageBackground: {
+    width,
+    height,
+  },
+
   image: {
     flex: 1,
     width,
     height,
-    resizeMode: 'cover'
-  },
-
-  indicator: {
-    position: 'absolute',
-    flexDirection: 'row',
-    bottom: 75,
-    justifyContent: 'center',
-    width,
-  },
-
-  TextIndicator: {
-    color: 'white',
-    justifyContent: 'center',
-    textAlign: 'center',
-
+    resizeMode: 'cover',
   },
 
   animatedView: {
@@ -178,17 +174,11 @@ const styles = StyleSheet.create({
     height,
   },
 
-  square: {
-    width: 22,
-    height: 22,
-    borderRadius: 100 / 2,
-    textAlign: 'right',
-    marginHorizontal: 4,
-  },
-
   check: {
     position: 'absolute',
-    top: 40,
+    bottom: 30,
+    width,
+    textAlign: 'center'
   }
 
 });
