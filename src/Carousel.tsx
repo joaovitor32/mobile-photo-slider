@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback} from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 
 import {
   StyleSheet,
@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Platform,
   ActivityIndicator,
+  useWindowDimensions
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Fontisto';
@@ -18,17 +19,18 @@ import photos from './data';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
-const ItemSize = width * 0.75
 
 const Carousel: React.FC = () => {
+
+  const { width: windowWidth } = useWindowDimensions();
 
   const [indexImage, setIndexImage] = useState(0);
   const [pickedPhotos, setPickedPhotos] = useState<string[]>([]);
 
   const viewConfigRef = React.useRef({ viewAreaCoveragePercentThreshold: 50 })
 
-  const backgroundImageOpacity = useRef(new Animated.Value(0.5)).current;
   const scrollX = React.useRef(new Animated.Value(0)).current;
+  const zoomScale = React.useRef(new Animated.Value(0)).current;
 
   const onViewRef = React.useRef((viewableItems: any) => {
     setIndexImage(viewableItems.changed[0].index)
@@ -45,7 +47,7 @@ const Carousel: React.FC = () => {
 
   }, [pickedPhotos, setPickedPhotos])
 
-  return (<> 
+  return (<>
 
     {photos.length != 0 && <View style={styles.box} >
 
@@ -58,55 +60,64 @@ const Carousel: React.FC = () => {
         renderToHardwareTextureAndroid
         viewabilityConfig={viewConfigRef.current}
         onViewableItemsChanged={onViewRef.current}
-        decelerationRate={Platform.OS === 'ios' ? 0 : 0.95}  
-        
+        decelerationRate={Platform.OS === 'ios' ? 0 : 0.95}
+
         onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+          [{
+            nativeEvent: {
+              contentOffset: { x: scrollX },
+            }
+          }],
           { useNativeDriver: true }
-        )}  
+        )}
 
         scrollEventThrottle={16}
 
         renderItem={({ item, index }) => {
 
           const inputRange = [
-            (index - 2) * ItemSize,
-            (index - 1) * ItemSize,
-            index * ItemSize,
+            (index - 1) * windowWidth,
+            (index ) * windowWidth,
+            (index+1) * windowWidth,
           ];
 
-          const translateY = scrollX.interpolate({
-            inputRange,
-            outputRange: [15, 0, 15],
+          const opacityValue = scrollX.interpolate({
+            inputRange:inputRange,
+            outputRange: [0, 1, 0],
+            extrapolate: 'clamp',
+          });
+
+          const scaleValue = scrollX.interpolate({
+            inputRange:inputRange,
+            outputRange: [0.85, 1, 0.85],
             extrapolate: 'clamp',
           });
 
           return <>
-      
-          <Animated.View
-            style={[indexImage == index ? {
-                opacity: 1,
-              } : {
-                  opacity: backgroundImageOpacity,
-                  transform: [{ translateY }],
-                }
-            ]}
-          >
 
-            <TouchableOpacity style={styles.checkbox} onPress={() => addPickedPhoto(item)} >
+            <Animated.View style={
+              {
+                opacity: opacityValue,
+                transform:[{
+                  scale:scaleValue
+                }]
 
-              <Icon
-                size={24}
-                color={'white'}
-                name={!pickedPhotos.includes(item) ? 'checkbox-passive' : 'checkbox-active'}
-              />
+              }}>
 
-            </TouchableOpacity>
+              <TouchableOpacity style={styles.checkbox} onPress={() => addPickedPhoto(item)} >
 
-            <Image style={styles.image} source={{ uri: item }} />
+                <Icon
+                  size={24}
+                  color={'white'}
+                  name={!pickedPhotos.includes(item) ? 'checkbox-passive' : 'checkbox-active'}
+                />
 
-          </Animated.View>
-          
+              </TouchableOpacity>
+
+              <Animated.Image style={styles.image} source={{ uri: item }} />
+
+            </Animated.View>
+
           </>
 
         }}
