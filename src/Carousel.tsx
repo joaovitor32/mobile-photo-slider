@@ -81,6 +81,8 @@ const Carousel: React.FC = () => {
             extrapolate: 'clamp',
           });
 
+          //Try to implement rotate
+
           return <>
       
           <Animated.View
