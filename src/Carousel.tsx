@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback} from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 
 import {
   StyleSheet,
@@ -9,25 +9,30 @@ import {
   TouchableOpacity,
   Platform,
   ActivityIndicator,
+  useWindowDimensions
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Fontisto';
 import Pagination from './components/Pagination';
 
-import photos from './data';
+//import photos from './data';
+
+interface Carousel{
+  photos:string[];
+}
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
-const ItemSize = width * 0.75
 
-const Carousel: React.FC = () => {
+const Carousel: React.FC<Carousel> = ({photos}) => {
+
+  const { width: windowWidth } = useWindowDimensions();
 
   const [indexImage, setIndexImage] = useState(0);
   const [pickedPhotos, setPickedPhotos] = useState<string[]>([]);
 
   const viewConfigRef = React.useRef({ viewAreaCoveragePercentThreshold: 50 })
 
-  const backgroundImageOpacity = useRef(new Animated.Value(0.5)).current;
   const scrollX = React.useRef(new Animated.Value(0)).current;
 
   const onViewRef = React.useRef((viewableItems: any) => {
@@ -45,7 +50,7 @@ const Carousel: React.FC = () => {
 
   }, [pickedPhotos, setPickedPhotos])
 
-  return (<> 
+  return (<>
 
     {photos.length != 0 && <View style={styles.box} >
 
@@ -58,57 +63,71 @@ const Carousel: React.FC = () => {
         renderToHardwareTextureAndroid
         viewabilityConfig={viewConfigRef.current}
         onViewableItemsChanged={onViewRef.current}
-        decelerationRate={Platform.OS === 'ios' ? 0 : 0.95}  
+        decelerationRate={Platform.OS === 'ios' ? 0 : 0.95}
+        testID="flat-list"
         
         onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+          [{
+            nativeEvent: {
+              contentOffset: { x: scrollX },
+            }
+          }],
           { useNativeDriver: true }
-        )}  
+        )}
 
         scrollEventThrottle={16}
 
         renderItem={({ item, index }) => {
 
           const inputRange = [
-            (index - 2) * ItemSize,
-            (index - 1) * ItemSize,
-            index * ItemSize,
+            (index - 1) * windowWidth,
+            (index) * windowWidth,
+            (index + 1) * windowWidth,
           ];
 
-          const translateY = scrollX.interpolate({
-            inputRange,
-            outputRange: [15, 0, 15],
+          const opacityValue = scrollX.interpolate({
+            inputRange: inputRange,
+            outputRange: [0, 1, 0],
             extrapolate: 'clamp',
           });
 
-          //Try to implement rotate
+          const scaleValue = scrollX.interpolate({
+            inputRange: inputRange,
+            outputRange: [0.6, 1, 0.6],
+            extrapolate: 'clamp',
+          });
+
+          const rotateValue = scrollX.interpolate({
+            inputRange,
+            outputRange: ['-30deg', '0deg', '30deg'],
+            extrapolate: "clamp"
+          })
 
           return <>
-      
-          <Animated.View
-            style={[indexImage == index ? {
-                opacity: 1,
-              } : {
-                  opacity: backgroundImageOpacity,
-                  transform: [{ translateY }],
-                }
-            ]}
-          >
 
-            <TouchableOpacity style={styles.checkbox} onPress={() => addPickedPhoto(item)} >
+            <Animated.View style={
+              {
+                opacity: opacityValue,
+                transform: [
+                  {rotateY: rotateValue}, 
+                  { scale: scaleValue, }
+                ]
+              }}>
 
-              <Icon
-                size={24}
-                color={'white'}
-                name={!pickedPhotos.includes(item) ? 'checkbox-passive' : 'checkbox-active'}
-              />
+              <TouchableOpacity   testID="add-picked-photo" style={styles.checkbox} onPress={() => addPickedPhoto(item)} >
 
-            </TouchableOpacity>
+                <Icon
+                  size={24}
+                  color={'white'}
+                  name={!pickedPhotos.includes(item) ? 'checkbox-passive' : 'checkbox-active'}
+                />
 
-            <Image style={styles.image} source={{ uri: item }} />
+              </TouchableOpacity>
 
-          </Animated.View>
-          
+              <Animated.Image style={styles.image} source={{ uri: item }} />
+
+            </Animated.View>
+
           </>
 
         }}
@@ -129,7 +148,7 @@ const Carousel: React.FC = () => {
 
     {photos.length == 0 &&
 
-      <View style={styles.boxLoading}>
+      <View  testID="loading-box" style={styles.boxLoading}>
         <ActivityIndicator size={80} color="white" />
       </View>
     }
