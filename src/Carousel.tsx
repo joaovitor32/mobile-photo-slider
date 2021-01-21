@@ -1,8 +1,7 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 
 import {
   StyleSheet,
-  Image,
   View,
   Dimensions,
   Animated,
@@ -13,18 +12,20 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Fontisto';
-import Pagination from './components/Pagination';
+import DisplayCounter from './components/DisplayCounter';
 
-//import photos from './data';
 
-interface Carousel{
-  photos:string[];
+interface CarouselProps {
+  photos: string[];
+  primaryColor:string;
+  secondaryColor:string;
+  setPhotos: (photos:string[]) => void,
 }
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-const Carousel: React.FC<Carousel> = ({photos}) => {
+const Carousel: React.FC<CarouselProps> = ({setPhotos,primaryColor,secondaryColor,photos}) => {
 
   const { width: windowWidth } = useWindowDimensions();
 
@@ -45,7 +46,6 @@ const Carousel: React.FC<Carousel> = ({photos}) => {
       setPickedPhotos(pickedPhotos.filter(photo => photo !== elem));
       return;
     }
-
     setPickedPhotos([...pickedPhotos, elem]);
 
   }, [pickedPhotos, setPickedPhotos])
@@ -65,7 +65,7 @@ const Carousel: React.FC<Carousel> = ({photos}) => {
         onViewableItemsChanged={onViewRef.current}
         decelerationRate={Platform.OS === 'ios' ? 0 : 0.95}
         testID="flat-list"
-        
+
         onScroll={Animated.event(
           [{
             nativeEvent: {
@@ -99,26 +99,26 @@ const Carousel: React.FC<Carousel> = ({photos}) => {
 
           const rotateValue = scrollX.interpolate({
             inputRange,
-            outputRange: ['-30deg', '0deg', '30deg'],
+            outputRange: ['-20deg', '0deg', '20deg'],
             extrapolate: "clamp"
           })
-
+          
           return <>
 
             <Animated.View style={
               {
                 opacity: opacityValue,
                 transform: [
-                  {rotateY: rotateValue}, 
+                  { rotateY: rotateValue },
                   { scale: scaleValue, }
                 ]
               }}>
 
-              <TouchableOpacity   testID="add-picked-photo" style={styles.checkbox} onPress={() => addPickedPhoto(item)} >
+              <TouchableOpacity testID="add-picked-photo" style={styles.checkbox} onPress={() => addPickedPhoto(item)} >
 
                 <Icon
                   size={24}
-                  color={'white'}
+                  color={primaryColor}
                   name={!pickedPhotos.includes(item) ? 'checkbox-passive' : 'checkbox-active'}
                 />
 
@@ -132,23 +132,28 @@ const Carousel: React.FC<Carousel> = ({photos}) => {
 
         }}
 
-
       />
 
-      <Pagination photos={photos} indexImage={indexImage} />
-
-      <Icon
-        size={24}
-        style={styles.check}
-        color={'white'}
-        name={'check'}
+      <DisplayCounter 
+        primaryColor={primaryColor} 
+        secondaryColor={secondaryColor}
+        indexImage={indexImage} 
       />
+
+      <TouchableOpacity  testID="check-button" onPress={() => setPhotos(pickedPhotos)} >
+        <Icon
+          size={24}
+          style={styles.check}
+          color={primaryColor}
+          name={'check'}
+        />
+      </TouchableOpacity>  
 
     </View>}
 
     {photos.length == 0 &&
 
-      <View  testID="loading-box" style={styles.boxLoading}>
+      <View testID="loading-box" style={styles.boxLoading}>
         <ActivityIndicator size={80} color="white" />
       </View>
     }
@@ -171,10 +176,10 @@ const styles = StyleSheet.create({
   },
 
   checkbox: {
-    position: 'absolute',
-    right: 20,
     top: 20,
-    zIndex: 1
+    right: 20,
+    zIndex: 1,
+    position: 'absolute',
   },
 
   imageBackground: {
@@ -183,22 +188,22 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    flex: 1,
     width,
     height,
+    flex: 1,
     resizeMode: 'cover',
   },
 
   animatedView: {
-    position: "absolute",
     width,
     height,
+    position: "absolute",
   },
 
   check: {
-    position: 'absolute',
-    bottom: 30,
     width,
+    bottom: 30,
+    position: 'absolute',
     textAlign: 'center'
   }
 

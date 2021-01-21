@@ -2,51 +2,61 @@ import React from 'react';
 import Carousel from '../Carousel';
 import { render, fireEvent } from '@testing-library/react-native'
 
-import photos from '../data';
+import photos from '../../data/data';
 
-const eventData = {
-  nativeEvent: {
-    contentOffset: {
-      x: 200,
-    },
-    contentSize: {
-      // Dimensions of the scrollable content
-      height: 500,
-      width: 100,
-    },
-    layoutMeasurement: {
-      // Dimensions of the device
-      height: 100,
-      width: 100,
-    },
-  },
-};
+const setPhotos=jest.fn();
 
 describe('Carousel component', () => {
 
-  it('Testing Flatlist', () => {
+  let getByTestId:any;
+  let getAllByTestId :any;
 
-    const { getByTestId } = render(<Carousel photos={photos} />);
-    expect(getByTestId('flat-list')).not.toBeNull();
-
+  beforeEach(()=>{
+    ({ getByTestId, getAllByTestId  } = render(<Carousel 
+      setPhotos={setPhotos}
+      photos={photos} 
+      primaryColor={'white'}
+      secondaryColor={'orange'}
+    />));
   })
+  
 
 
   it('Testing Flatlist - photos empty array', () => {
 
-    const { getByTestId } = render(<Carousel photos={[]} />);
+    const { getByTestId } = render(<Carousel 
+      setPhotos={setPhotos}
+      photos={[]} 
+      primaryColor={'white'}
+      secondaryColor={'orange'}
+    />)
+    ;
     expect(getByTestId('loading-box')).not.toBeNull();
 
   })
 
-  it('Testing Flatlist - Add photo', () => {
+  it('Testing Flatlist', () => {
+    
+    expect(getByTestId('flat-list')).not.toBeNull();
 
-    const { getAllByTestId } = render(<Carousel photos={photos} />);
+  })
+
+  it('Testing Flatlist - Add photo to picked photos', () => {
 
     const touchableAddPickedPhoto =  getAllByTestId('add-picked-photo');
   
     fireEvent.press(touchableAddPickedPhoto[0]);
     fireEvent.press(touchableAddPickedPhoto[0]);
+
+  })
+
+  it('Testing Flatlist - Touchable opacity check button', () => {
+
+    const touchable =  getByTestId('check-button');
+  
+    fireEvent.press(touchable);
+
+    expect(setPhotos).toBeCalled();
 
   })
 
