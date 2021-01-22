@@ -13,10 +13,12 @@ npm install --save mobile-photo-slider
 import React,{useState} from 'react;
 import Carousel from 'mobile-photo-slider';
 
-const Component: React.FC = () => {
-  
-  photos=['https://avatars.githubusercontent.com/u/25807856?s=400&u=ae43fb642d1a543ddfaca2c7a4110bfd6b7720eb&v=4']
-  
+interface ComponentsProps{
+  photos:string[]
+}
+
+const Component<ComponentProps>: React.FC = ({photos}) => {
+   
   const [pickedPhotos,setPickedPhotos] = useState([])
   
   return <Carousel
