@@ -10,7 +10,7 @@ npm install --save mobile-photo-slider
 ## Usage
 
 ```js
-import React,{useState} from 'react;
+import React,{useState} from 'react';
 import Carousel from 'mobile-photo-slider';
 
 interface ComponentsProps{
