@@ -1,6 +1,10 @@
 {
   "name": "mobile-photo-slider",
+<<<<<<< HEAD
   "version": "0.0.9",
+=======
+  "version": "0.0.8",
+>>>>>>> d9c4dbae4f0fb5c39ab56c3fd098460db5601173
   "private": false,
   "types": "index.d.ts",
   "main": "App.tsx",
