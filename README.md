@@ -31,6 +31,8 @@ const Component: React.FC<ComponentsProps> = ({photos}) => {
 
 
 };
+
+export default Component;
 ```
 
 ## Properties
