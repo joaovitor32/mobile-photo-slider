@@ -1,6 +1,6 @@
 import React,{ ReactChildren,ReactChild } from 'react'
 
-export interface CarouselProps<T>{
+export interface CarouselProps{
 
     photos: string[];
     primaryColor: string;
@@ -11,4 +11,4 @@ export interface CarouselProps<T>{
 
 }
 
-export class Carousel<T> extends React.Component<CarouselProps<T>> {}
+export class Carousel extends React.Component<CarouselProps> {}

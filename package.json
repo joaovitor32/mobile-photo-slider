@@ -1,7 +1,7 @@
 {
   "name": "mobile-photo-slider",
-  "version": "0.0.1",
-  "private": true,
+  "version": "0.0.6",
+  "private": false,
   "types": "index.d.ts",
   "main": "App.tsx",
   "scripts": {
@@ -14,11 +14,10 @@
     "prepublish": "tsc"
   },
   "dependencies": {
-    "@react-native-community/cli": "^4.13.1",
     "react": "16.13.1",
-    "react-native": "0.63.4",
-    "react-native-eject": "^0.1.2",
+    "react-native": "^0.63.4",
     "react-scripts": "3.0.1"
+   
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
