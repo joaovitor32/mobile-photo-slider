@@ -11,7 +11,7 @@ yarn add mobile-photo-slider
 
 ```tsx
 import React,{useState} from 'react';
-import {Carousel} from 'mobile-photo-slider';
+import Carousel from 'mobile-photo-slider';
 
 interface ComponentsProps{
   photos:string[]
