@@ -9,7 +9,7 @@ yarn add mobile-photo-slider
 
 ## Usage
 
-```js
+```tsx
 import React,{useState} from 'react';
 import {Carousel} from 'mobile-photo-slider';
 
