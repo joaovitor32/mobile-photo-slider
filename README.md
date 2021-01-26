@@ -44,6 +44,7 @@ export default Component;
 | **`checkboxColor`**               | string related to color | none   
 | **`photos`**               | Array of string containing url's | none
 | **`setPhotos`**               | useState hook to get chosen photos  | none
+| **`Icon?`**               | Icon used to pick the selected photos  | none
 
 
 
