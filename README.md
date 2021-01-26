@@ -4,7 +4,7 @@ Mobile photo slider for React Native
 ## Installation
 
 ```bash
-npm install --save mobile-photo-slider
+yarn add mobile-photo-slider
 ```
 
 ## Usage
