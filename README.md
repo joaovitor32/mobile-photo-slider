@@ -4,22 +4,22 @@ Mobile photo slider for React Native
 ## Installation
 
 ```bash
-npm install --save mobile-photo-slider
+yarn add mobile-photo-slider
 ```
 
 ## Usage
 
-```js
+```tsx
 import React,{useState} from 'react';
-import Carousel from 'mobile-photo-slider';
+import {Carousel} from 'mobile-photo-slider';
 
 interface ComponentsProps{
   photos:string[]
 }
 
-const Component<ComponentProps>: React.FC = ({photos}) => {
+const Component: React.FC<ComponentsProps> = ({photos}) => {
    
-  const [pickedPhotos,setPickedPhotos] = useState([])
+  const [pickedPhotos,setPickedPhotos] = useState<string[]>([])
   
    return (<Carousel
       photos={photos}
