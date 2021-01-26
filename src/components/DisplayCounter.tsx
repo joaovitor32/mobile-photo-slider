@@ -5,15 +5,18 @@ import {
     View,
     Dimensions,
     Text,
-    Animated
+    Animated,
+    StyleProp,
+    TextStyle,
+    ViewStyle
 } from 'react-native';
 
 const width = Dimensions.get('window').width;
 
 interface DisplayCounterProps{
     indexImage:number,
-    primaryColor:string,
-    secondaryColor:string
+    primaryColor: string;
+    secondaryColor: string;
 }
 
 const DisplayCounter: React.FC<DisplayCounterProps> = ({primaryColor,secondaryColor,indexImage}) => {
@@ -58,13 +61,14 @@ const DisplayCounter: React.FC<DisplayCounterProps> = ({primaryColor,secondaryCo
                 ]}>
                     <Animated.Text style={[
                         {
-                            color:primaryColor,
                             opacity: fadeAnim,
                             transform:[{
                                 translateX:marginLeftAnim
                             }]
-                        },styles.textIndex]}>
-                        {indexImage+1}
+                        },
+                        {color:primaryColor},
+                        styles.textIndex]}>
+                            {indexImage+1}
                     </Animated.Text>
                 </View>
 

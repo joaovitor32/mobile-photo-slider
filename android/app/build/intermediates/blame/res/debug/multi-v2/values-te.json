@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/home/joao/Documentos/mobile-photo-slider/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-te/values-te.xml",
+            "outputFile": "/home/joao/Vídeos/mobile-photo-slider/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-te/values-te.xml",
             "map": [
                 {
                     "source": "/home/joao/.gradle/caches/transforms-2/files-2.1/639e914bfc1efa21e36199d3ff2c5eef/core-1.1.0/res/values-te/values-te.xml",

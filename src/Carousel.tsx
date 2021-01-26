@@ -1,31 +1,42 @@
-import React, { useState, useCallback } from 'react';
+import React, { 
+  useState, 
+  useCallback, 
+  ReactChildren, 
+  ReactChild 
+
+} from 'react';
 
 import {
   StyleSheet,
   View,
+  Text,
   Dimensions,
   Animated,
   TouchableOpacity,
   Platform,
   ActivityIndicator,
-  useWindowDimensions
+  useWindowDimensions,
+
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/Fontisto';
+
 import DisplayCounter from './components/DisplayCounter';
+import CheckBox from "./components/Checkbox"
 
 
 interface CarouselProps {
   photos: string[];
-  primaryColor:string;
-  secondaryColor:string;
-  setPhotos: (photos:string[]) => void,
+  primaryColor: string;
+  secondaryColor: string;
+  checkboxColor: string;
+  Icon?: ReactChild | ReactChildren;
+  setPhotos: (photos: string[]) => void,
 }
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-const Carousel: React.FC<CarouselProps> = ({setPhotos,primaryColor,secondaryColor,photos}) => {
+const Carousel: React.FC<CarouselProps> = ({ Icon, setPhotos, primaryColor, secondaryColor, photos, checkboxColor }) => {
 
   const { width: windowWidth } = useWindowDimensions();
 
@@ -49,6 +60,7 @@ const Carousel: React.FC<CarouselProps> = ({setPhotos,primaryColor,secondaryColo
     setPickedPhotos([...pickedPhotos, elem]);
 
   }, [pickedPhotos, setPickedPhotos])
+
 
   return (<>
 
@@ -99,10 +111,10 @@ const Carousel: React.FC<CarouselProps> = ({setPhotos,primaryColor,secondaryColo
 
           const rotateValue = scrollX.interpolate({
             inputRange,
-            outputRange: ['-20deg', '0deg', '20deg'],
+            outputRange: ['-30deg', '0deg', '30deg'],
             extrapolate: "clamp"
           })
-          
+
           return <>
 
             <Animated.View style={
@@ -116,11 +128,11 @@ const Carousel: React.FC<CarouselProps> = ({setPhotos,primaryColor,secondaryColo
 
               <TouchableOpacity testID="add-picked-photo" style={styles.checkbox} onPress={() => addPickedPhoto(item)} >
 
-                <Icon
-                  size={24}
-                  color={primaryColor}
-                  name={!pickedPhotos.includes(item) ? 'checkbox-passive' : 'checkbox-active'}
+                <CheckBox
+                  value={pickedPhotos.includes(item)}
+                  checkboxColor={checkboxColor}
                 />
+
 
               </TouchableOpacity>
 
@@ -134,27 +146,29 @@ const Carousel: React.FC<CarouselProps> = ({setPhotos,primaryColor,secondaryColo
 
       />
 
-      <DisplayCounter 
-        primaryColor={primaryColor} 
+      <DisplayCounter
+        primaryColor={primaryColor}
         secondaryColor={secondaryColor}
-        indexImage={indexImage} 
+        indexImage={indexImage}
       />
 
-      <TouchableOpacity  testID="check-button" onPress={() => setPhotos(pickedPhotos)} >
-        <Icon
-          size={24}
-          style={styles.check}
-          color={primaryColor}
-          name={'check'}
-        />
-      </TouchableOpacity>  
+      <TouchableOpacity testID="check-button" onPress={() => setPhotos(pickedPhotos)} >
+        {!Icon?
+          <Text style={[styles.sendText, { color: primaryColor }]}>
+            Send
+          </Text>:
+          <View style={styles.sendText}>
+            {Icon}
+          </View>
+        }
+      </TouchableOpacity>
 
     </View>}
 
     {photos.length == 0 &&
 
       <View testID="loading-box" style={styles.boxLoading}>
-        <ActivityIndicator size={80} color="white" />
+        <ActivityIndicator size={80} color={primaryColor} />
       </View>
     }
 
@@ -200,11 +214,12 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
 
-  check: {
+  sendText: {
     width,
     bottom: 30,
     position: 'absolute',
-    textAlign: 'center'
+    textAlign: 'center',
+    fontSize: 20,
   }
 
 });

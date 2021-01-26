@@ -1,12 +1,14 @@
-import React from 'react'
+import React,{ ReactChildren,ReactChild } from 'react'
 
 export interface CarouselProps<T>{
 
     photos: string[];
-    primaryColor:string;
-    secondaryColor:string;
+    primaryColor: string;
+    secondaryColor: string;
+    checkboxColor:string;
+    Icon?: ReactChild | ReactChildren;
     setPhotos: (photos:string[]) => void,
 
 }
 
-export default class Carousel<T> extends React.Component<CarouselProps<T>> {}
+export class Carousel<T> extends React.Component<CarouselProps<T>> {}

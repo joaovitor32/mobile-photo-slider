@@ -1,8 +1,8 @@
 import React from 'react';
-import Carousel from '../Carousel';
+import Carousel from '../src/Carousel';
 import { render, fireEvent } from '@testing-library/react-native'
 
-import photos from '../../data/data';
+import photos from '../data/data';
 
 const setPhotos=jest.fn();
 
@@ -17,6 +17,7 @@ describe('Carousel component', () => {
       photos={photos} 
       primaryColor={'white'}
       secondaryColor={'orange'}
+       checkboxColor={'orange'}
     />));
   })
   
@@ -29,6 +30,7 @@ describe('Carousel component', () => {
       photos={[]} 
       primaryColor={'white'}
       secondaryColor={'orange'}
+      checkboxColor={'orange'}
     />)
     ;
     expect(getByTestId('loading-box')).not.toBeNull();
