@@ -1,6 +1,6 @@
 import React,{ ReactChildren,ReactChild } from 'react'
 
-export interface CarouselProps{
+type CarouselProps={
 
     photos: string[];
     primaryColor: string;
@@ -8,7 +8,8 @@ export interface CarouselProps{
     checkboxColor:string;
     Icon?: ReactChild | ReactChildren;
     setPhotos: (photos:string[]) => void,
-
+    
 }
 
-export class Carousel extends React.Component<CarouselProps> {}
+export default class Carousel extends React.Component<CarouselProps> {}
+

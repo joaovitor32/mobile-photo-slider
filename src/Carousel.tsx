@@ -24,7 +24,7 @@ import DisplayCounter from './components/DisplayCounter';
 import CheckBox from "./components/Checkbox"
 
 
-interface CarouselProps {
+type ICarousel= {
   photos: string[];
   primaryColor: string;
   secondaryColor: string;
@@ -36,7 +36,7 @@ interface CarouselProps {
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-const Carousel: React.FC<CarouselProps> = ({ Icon, setPhotos, primaryColor, secondaryColor, photos, checkboxColor }) => {
+const Carousel: React.FC<ICarousel> = ({ Icon, setPhotos, primaryColor, secondaryColor, photos, checkboxColor }) => {
 
   const { width: windowWidth } = useWindowDimensions();
 
@@ -225,3 +225,4 @@ const styles = StyleSheet.create({
 });
 
 export default Carousel;
+

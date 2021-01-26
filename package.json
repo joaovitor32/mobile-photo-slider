@@ -1,6 +1,6 @@
 {
   "name": "mobile-photo-slider",
-  "version": "0.0.6",
+  "version": "0.0.9",
   "private": false,
   "types": "index.d.ts",
   "main": "App.tsx",
@@ -16,7 +16,7 @@
   "dependencies": {
     "react": "16.13.1",
     "react-native": "^0.63.4",
-    "react-scripts": "3.0.1"
+    "react-scripts": "3.0.1" 
    
   },
   "devDependencies": {
