@@ -127,21 +127,14 @@ const Carousel: React.FC<ICarousel> = ({ Icon, setPhotos, primaryColor, secondar
               }}>
 
               <TouchableOpacity testID="add-picked-photo" style={styles.checkbox} onPress={() => addPickedPhoto(item)} >
-
                 <CheckBox
                   value={pickedPhotos.includes(item)}
                   checkboxColor={checkboxColor}
                 />
-
-
               </TouchableOpacity>
-
               <Animated.Image style={styles.image} source={{ uri: item }} />
-
             </Animated.View>
-
           </>
-
         }}
 
       />
