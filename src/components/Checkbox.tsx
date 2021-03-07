@@ -12,18 +12,14 @@ const CheckBox: React.FC<CheckBoxProps> = ({value,checkboxColor}) =>{
 
   return (
     <View style={styles.WrapperCheckBox}>
-
       <View style={[
         styles.CheckBox,
         {borderColor:checkboxColor}
       ]}>
-
         {
           value ? <Text style={{color:checkboxColor}}>X</Text> : null
         }
-
       </View>
-
     </View>
   );
 }
