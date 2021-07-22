@@ -1,28 +1,20 @@
-import React,{useEffect} from 'react';
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
 
-import { View, Text, StyleSheet, StyleProp, ViewStyle } from 'react-native';
-
-
-interface CheckBoxProps{
-  value:boolean,
-  checkboxColor: string
+interface CheckBoxProps {
+  value: boolean;
+  checkboxColor: string;
 }
 
-const CheckBox: React.FC<CheckBoxProps> = ({value,checkboxColor}) =>{
-
+const CheckBox: React.FC<CheckBoxProps> = ({ value, checkboxColor }) => {
   return (
     <View style={styles.WrapperCheckBox}>
-      <View style={[
-        styles.CheckBox,
-        {borderColor:checkboxColor}
-      ]}>
-        {
-          value ? <Text style={{color:checkboxColor}}>X</Text> : null
-        }
+      <View style={[styles.CheckBox, { borderColor: checkboxColor }]}>
+        {value ? <Text style={{ color: checkboxColor }}>X</Text> : null}
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   CheckBox: {
@@ -30,16 +22,16 @@ const styles = StyleSheet.create({
     height: 25,
     borderWidth: 2,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   WrapperCheckBox: {
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
   },
   LabelCheck: {
-    color: '#fff',
-    marginLeft: 6
-  }
-})
+    color: "#fff",
+    marginLeft: 6,
+  },
+});
 
 export default CheckBox;

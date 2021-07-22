@@ -1,6 +1,5 @@
 {
   "name": "mobile-photo-slider",
-
   "version": "0.0.9",
   "private": false,
   "types": "index.d.ts",
@@ -15,10 +14,10 @@
     "prepublish": "tsc"
   },
   "dependencies": {
+    "eslint-plugin-import-helpers": "^1.1.0",
     "react": "16.13.1",
     "react-native": "^0.63.4",
-    "react-scripts": "3.0.1" 
-   
+    "react-scripts": "3.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
@@ -32,8 +31,11 @@
     "@types/node": "^14.14.21",
     "@types/react-native": "^0.63.2",
     "@types/react-test-renderer": "^16.9.2",
+    "@typescript-eslint/eslint-plugin": "^4.28.4",
+    "@typescript-eslint/parser": "^4.28.4",
     "babel-jest": "^26.6.3",
-    "eslint": "^6.5.1",
+    "eslint": "^7.31.0",
+    "eslint-plugin-react": "^7.24.0",
     "jest": "^25.1.0",
     "metro-react-native-babel-preset": "^0.59.0",
     "react-test-renderer": "16.13.1",
