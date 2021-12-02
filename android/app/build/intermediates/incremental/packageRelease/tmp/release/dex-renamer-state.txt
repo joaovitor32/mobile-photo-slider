@@ -1,0 +1,4 @@
+#Tue Nov 09 20:53:05 BRT 2021
+base.0=/home/user/Downloads/mobile-photo-slider/android/app/build/intermediates/dex/release/mergeDexRelease/out/classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

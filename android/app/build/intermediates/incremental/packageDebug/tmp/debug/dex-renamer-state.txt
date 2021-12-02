@@ -1,4 +1,4 @@
-#Tue Jan 26 10:38:09 ART 2021
-base.0=/home/joao/Vídeos/mobile-photo-slider/android/app/build/intermediates/dex/debug/mergeDexDebug/out/classes.dex
-renamed.0=classes.dex
+#Tue Nov 09 20:46:28 BRT 2021
+base.0=/home/user/Downloads/mobile-photo-slider/android/app/build/intermediates/dex/debug/mergeDexDebug/out/classes.dex
 path.0=classes.dex
+renamed.0=classes.dex

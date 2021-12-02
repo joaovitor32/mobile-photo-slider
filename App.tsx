@@ -1,3 +1,2 @@
-import Carousel from "./src/Carousel";
-
+import Carousel from "./src/index";
 export default Carousel;

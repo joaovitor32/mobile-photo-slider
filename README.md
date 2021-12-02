@@ -10,29 +10,43 @@ yarn add mobile-photo-slider
 ## Usage
 
 ```tsx
-import React,{useState} from 'react';
-import Carousel from 'mobile-photo-slider';
+import React, { useState } from "react";
+import { Text, TouchableOpacity } from "react-native";
 
-interface ComponentsProps{
-  photos:string[]
+import data from "./data/data";
+
+import Carousel from "mobile-photo-slider";
+
+interface ComponentsProps {
+  photos: string[];
 }
 
-const Component: React.FC<ComponentsProps> = ({photos}) => {
-   
-  const [pickedPhotos,setPickedPhotos] = useState<string[]>([])
-  
-   return (<Carousel
-      photos={photos}
-      setPhotos={setPickedPhotos}
-      primaryColor={'white'}
-      secondaryColor={'blue'}
-      checkboxColor={'white'}
-  />)
+const Component: React.FC<ComponentsProps> = () => {
+  const [open, setOpen] = useState<boolean>(true);
 
+  return (
+    <>
+      {open && (
+        <Carousel
+          photos={data}
+          primaryColor={"white"}
+          secondaryColor={"blue"}
+          open={open}
+          setOpen={setOpen}
+        />
+      )}
 
+      {!open && (
+        <TouchableOpacity onPress={() => setOpen(true)}>
+          <Text>Open</Text>
+        </TouchableOpacity>
+      )}
+    </>
+  );
 };
 
 export default Component;
+
 ```
 
 ## Properties
@@ -41,11 +55,9 @@ export default Component;
 | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
 | **`primaryColor`**               | string related to color | none   
 | **`secondaryColor`**               | string related to color | none
-| **`checkboxColor`**               | string related to color | none   
+| **`open`**               | boolean associated with modal toogle | none   
 | **`photos`**               | Array of string containing url's | none
-| **`setPhotos`**               | useState hook to get chosen photos  | none
-| **`Icon?`**               | Icon used to pick the selected photos  | none
-
+| **`setOpen`**               | Function to open and close modal  | none
 
 
 ## Demo
