@@ -14,8 +14,7 @@ import React, { useState } from "react";
 import { Text, TouchableOpacity } from "react-native";
 
 import data from "./data/data";
-
-import Carousel from "mobile-photo-slider";
+import Carousel from "./src/Carousel";
 
 interface ComponentsProps {
   photos: string[];
@@ -46,7 +45,6 @@ const Component: React.FC<ComponentsProps> = () => {
 };
 
 export default Component;
-
 ```
 
 ## Properties

@@ -1,17 +1,14 @@
 import React from "react";
 
-import photos from "../data/data";
-import DisplayClose from "../src/components/DisplayClose";
+import DisplayCounter from "../src/components/DisplayCounter";
 
-import { render, fireEvent, waitFor } from "@testing-library/react-native";
-
-const setOpen = jest.fn();
+import { render, fireEvent } from "@testing-library/react-native";
 
 const DisplayCloseComponent = (
-  <DisplayClose
-    setOpen={setOpen}
+  <DisplayCounter
     primaryColor={"#008000"}
     secondaryColor={"#800080"}
+    indexImage={0}
     testID={"display-close-touchable"}
   />
 );
@@ -20,14 +17,5 @@ describe("Display close component", () => {
   it("Testing display close renderization", () => {
     const { getByTestId } = render(DisplayCloseComponent);
     expect(getByTestId("display-close-touchable")).not.toBeNull();
-  });
-
-  it("Testing is setOpen is being called", async () => {
-    const { getByTestId } = render(DisplayCloseComponent);
-    const displayCloseTouchable = getByTestId("display-close-touchable");
-
-    fireEvent.press(displayCloseTouchable);
-
-    expect(setOpen).toHaveBeenCalled();
   });
 });
