@@ -1,65 +1,47 @@
-import React from 'react';
-import Carousel from '../src/Carousel';
-import { render, fireEvent } from '@testing-library/react-native'
+import React from "react";
 
-import photos from '../data/data';
+import photos from "../data/data";
+import Carousel from "../src/Carousel";
 
-const setPhotos=jest.fn();
+import { render } from "@testing-library/react-native";
 
-describe('Carousel component', () => {
+const setOpen = jest.fn();
 
-  let getByTestId:any;
-  let getAllByTestId :any;
+const CarouselComponent = (
+  <Carousel
+    setOpen={setOpen}
+    photos={photos}
+    primaryColor={"white"}
+    secondaryColor={"orange"}
+    open={false}
+  />
+);
 
-  beforeEach(()=>{
-    ({ getByTestId, getAllByTestId  } = render(<Carousel 
-      setPhotos={setPhotos}
-      photos={photos} 
-      primaryColor={'white'}
-      secondaryColor={'orange'}
-       checkboxColor={'orange'}
-    />));
-  })
-  
+const EmptyCarouselComponent = (
+  <Carousel
+    setOpen={setOpen}
+    photos={[]}
+    primaryColor={"white"}
+    secondaryColor={"orange"}
+    open={false}
+  />
+);
 
+describe("Carousel component", () => {
+  it("Testing Flatlist renderization", () => {
+    const { getByTestId } = render(CarouselComponent);
+    expect(getByTestId("flat-list")).not.toBeNull();
+  });
 
-  it('Testing Flatlist - photos empty array', () => {
+  it("Testing Flatlist - photos empty array", () => {
+    const { getByTestId } = render(EmptyCarouselComponent);
+    expect(getByTestId("loading-box")).not.toBeNull();
+  });
 
-    const { getByTestId } = render(<Carousel 
-      setPhotos={setPhotos}
-      photos={[]} 
-      primaryColor={'white'}
-      secondaryColor={'orange'}
-      checkboxColor={'orange'}
-    />)
-    ;
-    expect(getByTestId('loading-box')).not.toBeNull();
+  it("Testing display close and display counter components", () => {
+    const { getByTestId } = render(CarouselComponent);
 
-  })
-
-  it('Testing Flatlist', () => {
-    
-    expect(getByTestId('flat-list')).not.toBeNull();
-
-  })
-
-  it('Testing Flatlist - Add photo to picked photos', () => {
-
-    const touchableAddPickedPhoto =  getAllByTestId('add-picked-photo');
-  
-    fireEvent.press(touchableAddPickedPhoto[0]);
-    fireEvent.press(touchableAddPickedPhoto[0]);
-
-  })
-
-  it('Testing Flatlist - Touchable opacity check button', () => {
-
-    const touchable =  getByTestId('check-button');
-  
-    fireEvent.press(touchable);
-
-    expect(setPhotos).toBeCalled();
-
-  })
-
-})
+    expect(getByTestId("display-counter")).not.toBeNull();
+    expect(getByTestId("display-close")).not.toBeNull();
+  });
+});

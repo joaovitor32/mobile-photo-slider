@@ -2,11 +2,13 @@ export interface DisplayCounterProps {
   indexImage: number;
   primaryColor: string;
   secondaryColor: string;
+  testID: string;
 }
 
 export interface DisplayCloseProps {
   primaryColor: string;
   secondaryColor: string;
+  testID: string;
   setOpen: (open: boolean) => void;
 }
 

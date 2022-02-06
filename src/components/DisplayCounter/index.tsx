@@ -8,6 +8,8 @@ const DisplayCounter: React.FC<DisplayCounterProps> = ({
   primaryColor,
   secondaryColor,
   indexImage,
+  testID,
+  ...rest
 }) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const marginLeftAnim = useRef(new Animated.Value(10)).current;
@@ -32,7 +34,7 @@ const DisplayCounter: React.FC<DisplayCounterProps> = ({
   }, [indexImage]);
 
   return (
-    <View style={styles.indicator}>
+    <View {...rest} testID={testID} style={styles.indicator}>
       <View style={[{ borderColor: primaryColor }, styles.outerCircle]}>
         <View style={[{ backgroundColor: secondaryColor }, styles.innerCircle]}>
           <Animated.Text

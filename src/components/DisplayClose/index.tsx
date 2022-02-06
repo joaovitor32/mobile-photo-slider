@@ -8,9 +8,14 @@ const DisplayClose: React.FC<DisplayCloseProps> = ({
   setOpen,
   primaryColor,
   secondaryColor,
+  testID,
 }) => {
   return (
-    <TouchableOpacity onPress={() => setOpen(false)} style={styles.indicator}>
+    <TouchableOpacity
+      testID={testID}
+      onPress={() => setOpen(false)}
+      style={styles.indicator}
+    >
       <View style={[{ borderColor: primaryColor }, styles.outerCircle]}>
         <View style={[{ backgroundColor: secondaryColor }, styles.innerCircle]}>
           <Text style={[{ color: primaryColor }, , styles.textIndex]}> X </Text>

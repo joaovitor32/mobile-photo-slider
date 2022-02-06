@@ -1,9 +1,9 @@
 {
   "name": "mobile-photo-slider",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": false,
   "types": "index.d.ts",
-  "main": "App.tsx",
+  "main": "index.tsx",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",

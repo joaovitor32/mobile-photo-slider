@@ -77,6 +77,11 @@ const Carousel: React.FC<CarouselType> = ({
 
   return (
     <>
+      {photos.length == 0 && (
+        <View testID="loading-box" style={styles.boxLoading}>
+          <ActivityIndicator size={80} color={primaryColor} />
+        </View>
+      )}
       {photos.length != 0 && (
         <Modal animationType="fade" transparent={true} visible={open}>
           <Animated.View
@@ -159,22 +164,18 @@ const Carousel: React.FC<CarouselType> = ({
             <DisplayCounter
               primaryColor={primaryColor}
               secondaryColor={secondaryColor}
+              testID="display-counter"
               indexImage={indexImage}
             />
 
             <DisplayClose
               primaryColor={primaryColor}
+              testID="display-close"
               secondaryColor={secondaryColor}
               setOpen={() => setOpenHandler()}
             />
           </Animated.View>
         </Modal>
-      )}
-
-      {photos.length == 0 && (
-        <View testID="loading-box" style={styles.boxLoading}>
-          <ActivityIndicator size={80} color={primaryColor} />
-        </View>
       )}
     </>
   );
