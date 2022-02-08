@@ -5,3 +5,4 @@ ios
 demo
 data
 __tests__
+package-lock.json
