@@ -14,7 +14,7 @@ import React, { useState } from "react";
 import { Text, TouchableOpacity } from "react-native";
 
 import data from "./data/data";
-import Carousel from "./src/Carousel";
+import Carousel from "mobile-photo-slider";
 
 interface ComponentsProps {
   photos: string[];
