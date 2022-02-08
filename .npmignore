@@ -1,0 +1,7 @@
+node_modules
+android
+coverage
+ios
+demo
+data
+__tests__
