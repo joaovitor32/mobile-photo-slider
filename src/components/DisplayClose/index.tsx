@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 
-import { DisplayCloseProps } from "../../types";
+import { DisplayCloseProps } from "../../../types";
 import { styles } from "./styles";
 
 const DisplayClose: React.FC<DisplayCloseProps> = ({

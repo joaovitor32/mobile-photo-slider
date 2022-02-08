@@ -1,23 +1,30 @@
 import React from "react";
 
-import DisplayClose from "../src/components/DisplayClose";
+import DisplayCounter from "../src/components/DisplayCounter";
 
 import { render } from "@testing-library/react-native";
 
-const setOpen = jest.fn();
+const DisplayCloseComponent = (index: number): any => {
+  return (
+    <DisplayCounter
+      primaryColor={"#008000"}
+      secondaryColor={"#800080"}
+      indexImage={index}
+      testID={"display-counter-touchable"}
+    />
+  );
+};
 
-const DisplayCloseComponent = (
-  <DisplayClose
-    setOpen={setOpen}
-    primaryColor={"#008000"}
-    secondaryColor={"#800080"}
-    testID={"display-counter-touchable"}
-  />
-);
-
-describe("Display close component", () => {
+describe("Display counter component", () => {
   it("Testing display counter renderization", () => {
-    const { getByTestId } = render(DisplayCloseComponent);
+    const { getByTestId } = render(DisplayCloseComponent(0));
     expect(getByTestId("display-counter-touchable")).not.toBeNull();
+  });
+  it("Testing initial component style", () => {
+    const { getByTestId } = render(DisplayCloseComponent(0));
+    const view = getByTestId("display-counter-touchable");
+
+    expect(view.props.style.opacity).toBe(0);
+    expect(view.props.style.transform[0].translateX).toBe(10);
   });
 });

@@ -84,8 +84,8 @@ module.exports = {
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
   modulePathIgnorePatterns: [
-    '<rootDir>/src/types.ts',
-    '<rootDir>/src/styles.ts',
+    '<rootDir>/types.ts',
+    '<rootDir>/styles.ts',
     '<rootDir>/src/components/DisplayClose/styles.ts',
     '<rootDir>/src/components/DisplayCounter/styles.ts',
   ],

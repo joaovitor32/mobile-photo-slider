@@ -1,9 +1,10 @@
 import React from "react";
+import { Animated } from "react-native";
 
 import photos from "../data/data";
 import Carousel from "../src/Carousel";
 
-import { render } from "@testing-library/react-native";
+import { render, fireEvent } from "@testing-library/react-native";
 
 const setOpen = jest.fn();
 
@@ -43,5 +44,19 @@ describe("Carousel component", () => {
 
     expect(getByTestId("display-counter")).not.toBeNull();
     expect(getByTestId("display-close")).not.toBeNull();
+  });
+  it("Testing flatlist content length", () => {
+    const { getByTestId } = render(CarouselComponent);
+
+    expect(getByTestId("flat-list").props.data.length).toBe(photos.length);
+  });
+  it("Testing fire press event", () => {
+    const { getByTestId } = render(CarouselComponent);
+
+    const animatedSpyOn = jest.spyOn(Animated, "timing");
+
+    fireEvent.press(getByTestId("display-close"));
+
+    expect(animatedSpyOn).toHaveBeenCalled();
   });
 });

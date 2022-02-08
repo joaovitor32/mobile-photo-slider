@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { View, Animated } from "react-native";
 
-import { DisplayCounterProps } from "../../types";
+import { DisplayCounterProps } from "../../../types";
 import { styles } from "./styles";
 
 const DisplayCounter: React.FC<DisplayCounterProps> = ({
@@ -34,10 +34,11 @@ const DisplayCounter: React.FC<DisplayCounterProps> = ({
   }, [indexImage]);
 
   return (
-    <View {...rest} testID={testID} style={styles.indicator}>
+    <View {...rest} style={styles.indicator}>
       <View style={[{ borderColor: primaryColor }, styles.outerCircle]}>
         <View style={[{ backgroundColor: secondaryColor }, styles.innerCircle]}>
           <Animated.Text
+            testID={testID}
             style={[
               {
                 opacity: fadeAnim,
