@@ -9,10 +9,10 @@ import {
   Easing,
 } from "react-native";
 
-import { styles } from "../styles";
-import { Carousel as CarouselType } from "../types";
 import DisplayClose from "./components/DisplayClose";
 import DisplayCounter from "./components/DisplayCounter";
+import { styles } from "./styles";
+import { Carousel as CarouselType } from "./types";
 
 enum PIN {
   MIN = 0,

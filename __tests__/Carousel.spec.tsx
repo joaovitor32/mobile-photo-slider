@@ -2,7 +2,7 @@ import React from "react";
 import { Animated } from "react-native";
 
 import photos from "../data/data";
-import Carousel from "../src/Carousel";
+import Carousel from "../src";
 
 import { render, fireEvent } from "@testing-library/react-native";
 

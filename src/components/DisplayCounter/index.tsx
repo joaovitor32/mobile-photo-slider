@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { View, Animated } from "react-native";
 
-import { DisplayCounterProps } from "../../../types";
+import { DisplayCounterProps } from "../../types";
 import { styles } from "./styles";
 
 const DisplayCounter: React.FC<DisplayCounterProps> = ({

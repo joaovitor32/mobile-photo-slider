@@ -1,9 +1,11 @@
 {
   "name": "mobile-photo-slider",
-  "version": "1.3.1",
+  "version": "1.3.4",
   "private": false,
-  "types": "index.d.ts",
-  "main": "index.tsx",
+  "types": "lib/typescript/index.d.ts",
+  "main": "lib/commonjs/index.js",
+  "react-native": "src/index.tsx",
+  "module": "lib/module/index.js",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
@@ -11,7 +13,8 @@
     "test": "jest",
     "test:coverage": "jest --coverage --watchAll=false",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "prepublish": "tsc"
+    "prepublish": "tsc",
+    "prepare": "bob build"
   },
   "dependencies": {
     "eslint-plugin-import-helpers": "^1.1.0",
@@ -38,7 +41,28 @@
     "eslint-plugin-react": "^7.24.0",
     "jest": "^25.1.0",
     "metro-react-native-babel-preset": "^0.59.0",
+    "react-native-builder-bob": "^0.18.2",
     "react-test-renderer": "16.13.1",
     "typescript": "^3.8.3"
-  }
+  },
+  "files": [
+    "src",
+    "lib",
+    "!**/__tests__",
+    "!**/__fixtures__",
+    "!**/__mocks__"
+  ],
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      ["commonjs", {"copyFlow": true}],
+      "module",
+      "typescript"
+    ]
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "lib/"
+  ]
 }
